@@ -19,7 +19,7 @@ class TokenManager(models.Manager):
             auth_token = randint(0, 999999)
             auth_token = f'{auth_token:06}'
     
-        expires = timezone.now() + timedelta(seconds=60)
+        expires = timezone.localtime() + timedelta(seconds=60)
 
         if instance is None:
             Token.objects.create(
@@ -46,7 +46,7 @@ class TokenManager(models.Manager):
         if query.exists():
             token = query.get()
             auth_token = token.token
-            expires = token.expires
+            expires = timezone.localtime(token.expires)
         
         if token is not None and not token.is_valid():
             auth_token, expires = Token.objects._get_or_create(user, token)

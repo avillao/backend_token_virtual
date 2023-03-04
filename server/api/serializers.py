@@ -1,22 +1,27 @@
 from rest_framework import serializers,exceptions
-from api.models import Token
+from api.models import Transaction
 from django.contrib.auth.models import User
 
-class TokenSerializer(serializers.Serializer):
+class TokenBaseSerializer(serializers.Serializer):
     user =  serializers.EmailField(min_length=7,max_length=150, write_only=True)
-    expires = serializers.DateTimeField(read_only = True)
-    token = serializers.RegexField("^[0-9]+$",max_length=6, required= False)
-
-    def validate(self, attrs):
+    
+    def validate_user(self, value):
         user = None
         
-        if User.objects.filter(email = attrs['user']).exists():
-            user = User.objects.get(email=attrs['user'])
+        if User.objects.filter(email = value).exists():
+            user = User.objects.get(email= value)
         else:
-            raise exceptions.NotFound("Usuario no encontrado")
-        
-        attrs['user'] = user
+            raise exceptions.NotFound(f"Usuario '{value}' no encontrado")
 
-        return attrs
+        return user
+        
+class TokenGenerateSerializer(TokenBaseSerializer):
+    expires = serializers.DateTimeField(read_only = True)
+    token = serializers.RegexField("^[0-9]+$",max_length=6, read_only = True)
+
+
+class TokenUsageSerializer(TokenBaseSerializer):
+    token = serializers.RegexField("^[0-9]+$",max_length=6, write_only = True)
+    transaction = serializers.PrimaryKeyRelatedField(queryset = Transaction.objects.all(), write_only = True)
 
 

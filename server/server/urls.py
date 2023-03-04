@@ -14,9 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from api.views import TokenView
+from api.views import GenerateTokenView, UsageTokenView
 
 urlpatterns = [
-    path('api/generarToken/', TokenView.as_view()),
-    #path('api/usarToken/?cliente=xxxx&token=123456')
+    path('api/generarToken/', GenerateTokenView.as_view()),
+    path('api/usarToken/', UsageTokenView.as_view())
 ]
