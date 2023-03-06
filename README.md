@@ -3,7 +3,7 @@ Este pequeño proyecto tiene el objetivo de mostrar una implementación de la fu
 
 Otras funcionalidades como la autenticación de usuarios o manejo de sesiones no se implementan en este proyecto.
 
-Tambien existe el proyecto del token virtual por lado del cliente en el que se usan los endpoints mencionados más adelante. Para más información use el siguiente [link]().
+Tambien existe el proyecto del token virtual por lado del cliente en el que se usan los endpoints mencionados más adelante. Para más información use el siguiente [link](https://github.com/avillao/Frontend-Token-Virtual).
 
 ## Indice
 * [Dependencias](#dependencias)
